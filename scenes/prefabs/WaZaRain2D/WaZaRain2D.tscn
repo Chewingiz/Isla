@@ -12,7 +12,7 @@ point_count = 3
 curve = SubResource("Curve_sm7ws")
 
 [sub_resource type="Gradient" id="Gradient_111o2"]
-colors = PackedColorArray(1, 1, 1, 0.39215687, 1, 0, 0, 1)
+colors = PackedColorArray(1, 1, 1, 0.39215687, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_4tcfb"]
 gradient = SubResource("Gradient_111o2")
@@ -23,8 +23,8 @@ point_count = 2
 
 [sub_resource type="Curve" id="Curve_u2iqs"]
 _limits = [0.0, 30.0, 0.0, 1.0]
-_data = [Vector2(0, 15), 0.0, 137.44563, 0, 0, Vector2(0.24911033, 30), 0.0, 0.0, 0, 0, Vector2(1, 30), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 6.9127502), 0.0, 118.14908, 0, 0, Vector2(1, 24.362417), -30.335571, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Curve" id="Curve_60dto"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -44,9 +44,7 @@ angle_min = 1.0728835e-05
 angle_max = 1.0728835e-05
 gravity = Vector3(0, 3000, 0)
 scale_min = 0.19999999
-scale_max = 3.0
 scale_over_velocity_curve = SubResource("CurveXYZTexture_1e5ur")
-color = Color(1, 0, 0, 1)
 color_initial_ramp = SubResource("GradientTexture1D_4tcfb")
 alpha_curve = SubResource("CurveTexture_mmaml")
 turbulence_noise_speed_random = 0.0
@@ -70,23 +68,23 @@ direction = Vector3(0, -1, 0)
 spread = 20.0
 initial_velocity_max = 100.0
 gravity = Vector3(0, 500, 0)
-color = Color(1, 0, 0, 1)
 alpha_curve = SubResource("CurveTexture_sm7ws")
 
 [node name="WaZaRain2d" type="Node2D" unique_id=91837003]
 
 [node name="RainGPUParticles2D" type="GPUParticles2D" parent="." unique_id=734145015]
 material = SubResource("CanvasItemMaterial_ba0c1")
-amount = 3000
+amount = 1000
 sub_emitter = NodePath("../SplashGPUParticles2D")
 lifetime = 0.5
 preprocess = 0.5
 fixed_fps = 60
-collision_base_size = 10.0
+collision_base_size = 25.0
 visibility_rect = Rect2(-350, -200, 700, 400)
 process_material = SubResource("ParticleProcessMaterial_iab13")
 
 [node name="SplashGPUParticles2D" type="GPUParticles2D" parent="." unique_id=365395093]
-amount = 200
+amount = 1000
 lifetime = 0.2
+fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_ba0c1")

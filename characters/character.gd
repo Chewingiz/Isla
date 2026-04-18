@@ -1,11 +1,14 @@
 extends CharacterBody2D
 
-@export var speed: int = 200
-@export var acceleration: int = 5
+@export var speed: int = 300
+@export var acceleration: int = 20
 @export var jump_speed: int = 500
 
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var slide_timer: Timer = $SlideTimer
+@onready var slide_area_2d_left: Area2D = $SlideArea2DLeft
+@onready var slide_area_2d_right: Area2D = $SlideArea2DRight
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -28,30 +31,47 @@ func handle_input(delta: float) -> void:
 	var direction = Input.get_axis("left", "right")
 	
 	if not is_on_floor():
-		if Input.is_action_just_pressed("down"):
-				pass
+		if Input.is_action_just_pressed("pound"):
+			current_state = State.POUND
 		else:
-			velocity.x = lerp(velocity.x,0.0,delta)
-	else:
-		if Input.is_action_just_pressed("slide"):
-			current_state = State.SLIDE
-			slide_timer.start()
-		
-		if slide_timer.is_stopped():
 			if direction != 0:
 				velocity.x = move_toward(velocity.x, speed * direction, acceleration)
 			else:
-				slide_timer.stop()
+				velocity.x = lerp(velocity.x,0.0,delta)
+	else:
+		if slide_timer.is_stopped():
+			slide_timer.stop()
+			slide_area_2d_right.get_child(0).disabled = true
+			slide_area_2d_left.get_child(0).disabled = true
+			  
+			if direction != 0:
+				if Input.is_action_just_pressed("slide") and not current_state == State.SLIDE:
+					current_state = State.SLIDE
+					slide_timer.start()
+				else:
+					velocity.x = move_toward(velocity.x, speed * direction, acceleration)
+			else:
 				velocity.x = move_toward(velocity.x, 0, acceleration)
 		else:
 			if velocity.x > 0:
+				slide_area_2d_right.get_child(0).disabled = false
 				velocity.x += 10
 			else:
+				slide_area_2d_left.get_child(0).disabled = false
 				velocity.x -= 10
 
 func update_movement(delta: float) -> void:
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if current_state == State.POUND:
+			velocity.x = 0
+			velocity.y += gravity * delta * 10
+		else:
+			velocity.y += gravity * delta
+	
+	if velocity.x > 325:
+		velocity.x = 325
+	if velocity.x < -325:
+		velocity.x = -325
 
 func update_states() -> void:
 	match current_state:
@@ -78,6 +98,17 @@ func update_states() -> void:
 				current_state = State.IDLE
 			else:
 				current_state = State.RUN
+		
+		State.POUND when is_on_floor():
+			ground_pound()
+			if velocity.x == 0:
+				current_state = State.IDLE
+			else:
+				current_state = State.RUN
+
+func ground_pound() -> void:
+	animation_player.play("ground_pound")
+
 
 func update_animation() -> void:
 	if velocity.x != 0:
@@ -89,3 +120,4 @@ func update_animation() -> void:
 		State.JUMP: animations.play("jump")
 		State.FALL: animations.play("recep")
 		State.SLIDE: animations.play("slide")
+		State.POUND: animations.play("recep")

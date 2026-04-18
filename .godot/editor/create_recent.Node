@@ -1,2 +1,6 @@
-Timer
+AnimationPlayer
+Area2D
+CollisionShape2D
+Node2D
 LightOccluder2D
+Timer

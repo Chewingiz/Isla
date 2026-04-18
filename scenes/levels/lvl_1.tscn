@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://boyfv5qtdg6sv"]
 
-[ext_resource type="Texture2D" uid="uid://41kjmb56pqti" path="res://Art/other/bg.png" id="1_ij6uy"]
 [ext_resource type="Texture2D" uid="uid://cu27iyi5cnseh" path="res://Art/other/tmap.png" id="2_piajy"]
 [ext_resource type="PackedScene" uid="uid://de3kkheqcu5ia" path="res://characters/character.tscn" id="3_v45sh"]
 [ext_resource type="PackedScene" uid="uid://bmhd7yrq5imyb" path="res://scenes/prefabs/WaZaRain2D/WaZaRain2D.tscn" id="4_l6efi"]
@@ -34,16 +33,11 @@ tile_size = Vector2i(20, 20)
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_gu411")
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ij6uy"]
+polygon = PackedVector2Array(-709, 66, 1225, 70, 1212, 183, -745, 190)
+
 [node name="lvl1" type="Node2D" unique_id=653869036]
 position = Vector2(1, 1)
-
-[node name="TextureRect" type="TextureRect" parent="." unique_id=653953608]
-offset_left = -258.0
-offset_top = -365.0
-offset_right = 539.0
-offset_bottom = 112.0
-texture = ExtResource("1_ij6uy")
-stretch_mode = 1
 
 [node name="TileMap" type="TileMap" parent="." unique_id=1529881332]
 tile_set = SubResource("TileSet_1w1y8")
@@ -58,3 +52,7 @@ remote_path = NodePath("../../Camera2D")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1081792960]
 
 [node name="WaZaRain2d" parent="Camera2D" unique_id=91837003 instance=ExtResource("4_l6efi")]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1784113790]
+position = Vector2(1, 0)
+occluder = SubResource("OccluderPolygon2D_ij6uy")
