@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://boyfv5qtdg6sv"]
+
+[ext_resource type="Texture2D" uid="uid://41kjmb56pqti" path="res://Art/other/bg.png" id="1_ij6uy"]
+[ext_resource type="Texture2D" uid="uid://cu27iyi5cnseh" path="res://Art/other/tmap.png" id="2_piajy"]
+[ext_resource type="PackedScene" uid="uid://de3kkheqcu5ia" path="res://characters/character.tscn" id="3_v45sh"]
+[ext_resource type="PackedScene" uid="uid://bmhd7yrq5imyb" path="res://scenes/prefabs/WaZaRain2D/WaZaRain2D.tscn" id="4_l6efi"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gu411"]
+texture = ExtResource("2_piajy")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+1:4/0 = 0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[sub_resource type="TileSet" id="TileSet_1w1y8"]
+tile_size = Vector2i(20, 20)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_gu411")
+
+[node name="lvl1" type="Node2D" unique_id=653869036]
+position = Vector2(1, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=653953608]
+offset_left = -258.0
+offset_top = -365.0
+offset_right = 539.0
+offset_bottom = 112.0
+texture = ExtResource("1_ij6uy")
+stretch_mode = 1
+
+[node name="TileMap" type="TileMap" parent="." unique_id=1529881332]
+tile_set = SubResource("TileSet_1w1y8")
+format = 2
+layer_0/tile_data = PackedInt32Array(327675, 65537, 0, 262148, 65537, 0, 327676, 65537, 0, 327677, 65537, 0, 327678, 65537, 0, 327679, 65537, 0, 262144, 65537, 0, 262145, 65537, 0, 262146, 65537, 0, 262147, 65537, 0, 262149, 65537, 0, 262150, 65537, 0, 262151, 65537, 0, 262152, 65537, 0, 262153, 65537, 0, 262154, 65537, 0, 262155, 65537, 0, 262156, 65537, 0, 262157, 65537, 0, 262158, 65537, 0, 262159, 65537, 0, 262160, 65537, 0, 262161, 65537, 0, 262162, 65537, 0, 262163, 65537, 0, 327673, 65537, 0, 327674, 65537, 0, 262166, 65537, 0, 262167, 65537, 0, 262168, 65537, 0, 262165, 65537, 0, 262164, 65537, 0, 327664, 65537, 0, 327663, 65537, 0, 327662, 65537, 0, 327661, 65537, 0, 327660, 65537, 0, 327665, 65537, 0, 327666, 65537, 0, 327667, 65537, 0, 327668, 65537, 0, 327669, 65537, 0, 327670, 65537, 0, 327671, 65537, 0, 327672, 65537, 0, 262169, 65537, 0, 262170, 65537, 0, 262171, 65537, 0, 262172, 65537, 0, 262173, 65537, 0, 262174, 65537, 0, 262175, 65537, 0, 262176, 65537, 0, 262177, 65537, 0, 262178, 65537, 0, 262179, 65537, 0, 262180, 65537, 0, 262181, 65537, 0, 262182, 65537, 0, 262183, 65537, 0, 262184, 65537, 0, 262185, 65537, 0, 262186, 65537, 0, 262187, 65537, 0, 262188, 65537, 0, 262189, 65537, 0, 262190, 65537, 0, 262191, 65537, 0, 262192, 65537, 0, 262193, 65537, 0, 262194, 65537, 0, 262195, 65537, 0, 262196, 65537, 0, 262197, 65537, 0, 262198, 65537, 0, 262199, 65537, 0, 262200, 65537, 0, 262201, 65537, 0, 262202, 65537, 0, 262203, 65537, 0, 327659, 65537, 0, 327658, 65537, 0, 327657, 65537, 0, 327656, 65537, 0, 327655, 65537, 0, 327654, 65537, 0, 327653, 65537, 0, 327652, 65537, 0, 327651, 65537, 0, 327650, 65537, 0, 327649, 65537, 0, 327648, 65537, 0, 327647, 65537, 0, 327646, 65537, 0, 327645, 65537, 0, 196579, 65537, 0, 262115, 65537, 0, 196663, 65537, 0, 131127, 65537, 0)
+
+[node name="Character" parent="." unique_id=1474355407 instance=ExtResource("3_v45sh")]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Character" unique_id=2123953973]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1081792960]
+
+[node name="WaZaRain2d" parent="Camera2D" unique_id=91837003 instance=ExtResource("4_l6efi")]

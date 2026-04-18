@@ -1,12 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://de3kkheqcu5ia"]
+[gd_scene format=3 uid="uid://de3kkheqcu5ia"]
 
-[ext_resource type="Texture2D" uid="uid://cfe7kxwbhd7kl" path="res://Art/carac/idle.png" id="1_0yq1w"]
-[ext_resource type="Script" path="res://characters/character.gd" id="1_eaa5m"]
-[ext_resource type="Texture2D" uid="uid://jksqh2jdv2hj" path="res://Art/carac/jump.png" id="3_w57yq"]
-[ext_resource type="Texture2D" uid="uid://3vdmxbk76qk8" path="res://Art/carac/reception.png" id="4_4pchd"]
-[ext_resource type="Texture2D" uid="uid://cm0t8l063006h" path="res://Art/carac/walk1.png" id="4_vtug3"]
-[ext_resource type="Texture2D" uid="uid://c35gnnkyg60j6" path="res://Art/carac/walk2.png" id="5_8p030"]
-[ext_resource type="Texture2D" uid="uid://brbwqmquk5s06" path="res://Art/carac/slide.png" id="7_vwkls"]
+[ext_resource type="Texture2D" uid="uid://itrgvni68f6h" path="res://Art/carac/idle.png" id="1_0yq1w"]
+[ext_resource type="Script" uid="uid://br44sbf2oc63c" path="res://characters/character.gd" id="1_eaa5m"]
+[ext_resource type="Texture2D" uid="uid://c4ugke0ay3guj" path="res://Art/carac/jump.png" id="3_w57yq"]
+[ext_resource type="Texture2D" uid="uid://ch1jy80gi644q" path="res://Art/carac/reception.png" id="4_4pchd"]
+[ext_resource type="Texture2D" uid="uid://bop0x6e0yctq0" path="res://Art/carac/walk1.png" id="4_vtug3"]
+[ext_resource type="Texture2D" uid="uid://d0l2y6abxu8gu" path="res://Art/carac/walk2.png" id="5_8p030"]
+[ext_resource type="Texture2D" uid="uid://6fo84cvhvfuh" path="res://Art/carac/slide.png" id="7_vwkls"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0gkak"]
 animations = [{
@@ -54,18 +54,28 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfuoa"]
-size = Vector2(24, 59)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jfi6v"]
+radius = 15.0
+height = 54.0
 
-[node name="Character" type="CharacterBody2D"]
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_jfi6v"]
+polygon = PackedVector2Array(-12, 24, -12, -45, 12, -45, 12, 24)
+
+[node name="Character" type="CharacterBody2D" unique_id=57550830]
 script = ExtResource("1_eaa5m")
+acceleration = 20
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=334294256]
+position = Vector2(0, -20)
 sprite_frames = SubResource("SpriteFrames_0gkak")
-animation = &"slide"
+animation = &"recep"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 19.5)
-shape = SubResource("RectangleShape2D_wfuoa")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=421669844]
+shape = SubResource("CapsuleShape2D_jfi6v")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1947869002]
+occluder = SubResource("OccluderPolygon2D_jfi6v")
+
+[node name="SlideTimer" type="Timer" parent="." unique_id=1140255211]
+wait_time = 0.3
+one_shot = true

@@ -1,0 +1,4 @@
+res://characters/character.tscn
+res://scenes/levels/lvl_1.tscn
+res://scenes/prefabs/WaZaRain2D/WaZaRain2D.tscn
+res://characters/character.gd

@@ -1,66 +1,91 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var speed: int = 200
+@export var acceleration: int = 5
+@export var jump_speed: int = 500
+
+@onready var animations: AnimatedSprite2D = $AnimatedSprite2D
+@onready var slide_timer: Timer = $SlideTimer
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var animation_timer: Timer = $Timer
 
-var is_jumping = false
+enum State{IDLE, RUN, JUMP, FALL, SLIDE, POUND}
+var current_state: State = State.IDLE
 
-func _ready():
-	animation_timer.wait_time = 0.2
-	animation_timer.connect("timeout",_on_animation_timer_timeout,0)
-	#print($".".is_on_floor())
-
-func _physics_process(delta):
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if animation_timer.is_stopped():
-		if not is_on_floor():
-			velocity.y += gravity * delta
-
-			if velocity.y >= 0:
-				if Input.is_action_pressed("ui_down"):
-					animated_sprite.play("recep")#anim chute rapide
-				else:
-					animated_sprite.play("idle")
-			else:
-				animated_sprite.play("jump")
-		else:
-			if is_jumping and Input.is_action_pressed("ui_down") :
-				is_jumping = false
-				animated_sprite.play("recep")
-				animation_timer.start()
-			elif Input.is_action_pressed("ui_down") and direction:
-				animated_sprite.play("slide")
-			else:
-				if velocity.x == 0:
-					animated_sprite.play("idle")
-				else:
-					animated_sprite.play("run")
-			
-		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
-			is_jumping = true
-
-		#var direction = Input.get_axis("ui_left", "ui_right")
-		if direction:
-			velocity.x = direction * SPEED
-
-			if velocity.x > 0:
-				animated_sprite.flip_h = true
-			elif velocity.x < 0:
-				animated_sprite.flip_h = false
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-	else:
-		if animated_sprite.animation == "recep":
-			velocity.x = 0
-			animated_sprite.stop()
-			is_jumping = false
-	
+func _physics_process(delta: float) -> void:
+	handle_input(delta)
+	update_movement(delta)
+	update_states()
+	update_animation()
 	move_and_slide()
- 
-func _on_animation_timer_timeout():
-	animation_timer.stop()
+
+func handle_input(delta: float) -> void:
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		slide_timer.stop()
+		velocity.y = -jump_speed
+		current_state = State.JUMP
+	
+	var direction = Input.get_axis("left", "right")
+	
+	if not is_on_floor():
+		if Input.is_action_just_pressed("down"):
+				pass
+		else:
+			velocity.x = lerp(velocity.x,0.0,delta)
+	else:
+		if Input.is_action_just_pressed("slide"):
+			current_state = State.SLIDE
+			slide_timer.start()
+		
+		if slide_timer.is_stopped():
+			if direction != 0:
+				velocity.x = move_toward(velocity.x, speed * direction, acceleration)
+			else:
+				slide_timer.stop()
+				velocity.x = move_toward(velocity.x, 0, acceleration)
+		else:
+			if velocity.x > 0:
+				velocity.x += 10
+			else:
+				velocity.x -= 10
+
+func update_movement(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+func update_states() -> void:
+	match current_state:
+		State.IDLE when velocity.x != 0:
+			current_state = State.RUN
+		
+		State.RUN:
+			if velocity.x == 0:
+				current_state = State.IDLE
+			if not is_on_floor() && velocity.y > 0:
+				current_state = State.FALL 
+		
+		State.JUMP when velocity.y > 0:
+			current_state = State.FALL
+		
+		State.FALL when is_on_floor():
+			if velocity.x == 0:
+				current_state = State.IDLE
+			else:
+				current_state = State.RUN
+		
+		State.SLIDE when slide_timer.is_stopped():
+			if velocity.x == 0:
+				current_state = State.IDLE
+			else:
+				current_state = State.RUN
+
+func update_animation() -> void:
+	if velocity.x != 0:
+		animations.scale.x = -sign(velocity.x)
+	
+	match current_state:
+		State.IDLE: animations.play("idle")
+		State.RUN: animations.play("run")
+		State.JUMP: animations.play("jump")
+		State.FALL: animations.play("recep")
+		State.SLIDE: animations.play("slide")
