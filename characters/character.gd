@@ -12,10 +12,11 @@ var is_jumping = false
 func _ready():
 	animation_timer.wait_time = 0.2
 	animation_timer.connect("timeout",_on_animation_timer_timeout,0)
+	#print($".".is_on_floor())
 
 func _physics_process(delta):
+	var direction = Input.get_axis("ui_left", "ui_right")
 	if animation_timer.is_stopped():
-		# Logique de mouvement et d'animation...
 		if not is_on_floor():
 			velocity.y += gravity * delta
 
@@ -31,6 +32,8 @@ func _physics_process(delta):
 				is_jumping = false
 				animated_sprite.play("recep")
 				animation_timer.start()
+			elif Input.is_action_pressed("ui_down") and direction:
+				animated_sprite.play("slide")
 			else:
 				if velocity.x == 0:
 					animated_sprite.play("idle")
@@ -41,7 +44,7 @@ func _physics_process(delta):
 			velocity.y = JUMP_VELOCITY
 			is_jumping = true
 
-		var direction = Input.get_axis("ui_left", "ui_right")
+		#var direction = Input.get_axis("ui_left", "ui_right")
 		if direction:
 			velocity.x = direction * SPEED
 
@@ -55,10 +58,9 @@ func _physics_process(delta):
 		if animated_sprite.animation == "recep":
 			velocity.x = 0
 			animated_sprite.stop()
-			#animated_sprite.play("idle")  # Jouez l'animation "idle" ou l'animation appropriée après les 2 secondes
 			is_jumping = false
-
+	
 	move_and_slide()
-
+ 
 func _on_animation_timer_timeout():
 	animation_timer.stop()

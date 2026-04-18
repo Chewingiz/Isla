@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://de3kkheqcu5ia"]
+[gd_scene load_steps=10 format=3 uid="uid://de3kkheqcu5ia"]
 
 [ext_resource type="Texture2D" uid="uid://cfe7kxwbhd7kl" path="res://Art/carac/idle.png" id="1_0yq1w"]
 [ext_resource type="Script" path="res://characters/character.gd" id="1_eaa5m"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://3vdmxbk76qk8" path="res://Art/carac/reception.png" id="4_4pchd"]
 [ext_resource type="Texture2D" uid="uid://cm0t8l063006h" path="res://Art/carac/walk1.png" id="4_vtug3"]
 [ext_resource type="Texture2D" uid="uid://c35gnnkyg60j6" path="res://Art/carac/walk2.png" id="5_8p030"]
+[ext_resource type="Texture2D" uid="uid://brbwqmquk5s06" path="res://Art/carac/slide.png" id="7_vwkls"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0gkak"]
 animations = [{
@@ -43,6 +44,14 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_vwkls")
+}],
+"loop": true,
+"name": &"slide",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wfuoa"]
@@ -53,7 +62,7 @@ script = ExtResource("1_eaa5m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0gkak")
-animation = &"recep"
+animation = &"slide"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 19.5)
