@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var acceleration: int = 20
 @export var jump_speed: int = 500
 
-@onready var animations: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animations: AnimatedSprite2D = $Anim/AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var slide_timer: Timer = $SlideTimer
 @onready var slide_area_2d_left: Area2D = $SlideArea2DLeft
@@ -112,7 +112,7 @@ func ground_pound() -> void:
 
 func update_animation() -> void:
 	if velocity.x != 0:
-		animations.scale.x = -sign(velocity.x)
+		animations.scale.x = sign(velocity.x)
 	
 	match current_state:
 		State.IDLE: animations.play("idle")
@@ -120,4 +120,4 @@ func update_animation() -> void:
 		State.JUMP: animations.play("jump")
 		State.FALL: animations.play("recep")
 		State.SLIDE: animations.play("slide")
-		State.POUND: animations.play("recep")
+		State.POUND: animations.play("pound")

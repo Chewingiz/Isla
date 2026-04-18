@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://boyfv5qtdg6sv"]
 
 [ext_resource type="Texture2D" uid="uid://cu27iyi5cnseh" path="res://Art/other/tmap.png" id="2_piajy"]
-[ext_resource type="PackedScene" uid="uid://de3kkheqcu5ia" path="res://characters/character.tscn" id="3_v45sh"]
+[ext_resource type="PackedScene" uid="uid://de3kkheqcu5ia" path="res://scenes/prefabs/characters/character.tscn" id="3_v45sh"]
+[ext_resource type="PackedScene" uid="uid://cenolbnl62cmy" path="res://scenes/prefabs/splash.tscn" id="4_ij6uy"]
 [ext_resource type="PackedScene" uid="uid://bmhd7yrq5imyb" path="res://scenes/prefabs/WaZaRain2D/WaZaRain2D.tscn" id="4_l6efi"]
+[ext_resource type="PackedScene" uid="uid://lbycvaor6d21" path="res://scenes/prefabs/boueu/Boueu.tscn" id="5_piajy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gu411"]
 texture = ExtResource("2_piajy")
@@ -39,6 +41,8 @@ polygon = PackedVector2Array(-709, 66, 1225, 70, 1212, 183, -745, 190)
 [node name="lvl1" type="Node2D" unique_id=653869036]
 position = Vector2(1, 1)
 
+[node name="WaZaRain2d" parent="." unique_id=91837003 instance=ExtResource("4_l6efi")]
+
 [node name="TileMap" type="TileMap" parent="." unique_id=1529881332]
 tile_set = SubResource("TileSet_1w1y8")
 format = 2
@@ -50,9 +54,23 @@ layer_0/tile_data = PackedInt32Array(327675, 65537, 0, 262148, 65537, 0, 327676,
 remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1081792960]
+zoom = Vector2(1.5, 1.5)
 
-[node name="WaZaRain2d" parent="Camera2D" unique_id=91837003 instance=ExtResource("4_l6efi")]
+[node name="Splash" parent="Camera2D" unique_id=1373186938 instance=ExtResource("4_ij6uy")]
+position = Vector2(9, 11)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1784113790]
-position = Vector2(1, 0)
+position = Vector2(-6, 12)
 occluder = SubResource("OccluderPolygon2D_ij6uy")
+
+[node name="Boueu" parent="." unique_id=1350161769 instance=ExtResource("5_piajy")]
+position = Vector2(191, 54)
+
+[node name="Boueu2" parent="." unique_id=517379408 instance=ExtResource("5_piajy")]
+position = Vector2(303, 50)
+
+[node name="Boueu3" parent="." unique_id=54175641 instance=ExtResource("5_piajy")]
+position = Vector2(106, 15)
+
+[node name="Boueu4" parent="." unique_id=1932829529 instance=ExtResource("5_piajy")]
+position = Vector2(394, 2)

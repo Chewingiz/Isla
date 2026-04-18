@@ -1,6 +1,9 @@
+Node2D
+Timer
+AnimatedSprite2D
+CollisionShape2D
+CharacterBody2D
+GPUParticles2D
 AnimationPlayer
 Area2D
-CollisionShape2D
-Node2D
 LightOccluder2D
-Timer

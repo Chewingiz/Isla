@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://lbycvaor6d21"]
+
+[ext_resource type="Script" uid="uid://bcwuvyutaix8u" path="res://scenes/prefabs/boueu/boueu.gd" id="1_woqdr"]
+[ext_resource type="Texture2D" uid="uid://bfjejh3o8onm1" path="res://icon.svg" id="2_sxwqk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sxwqk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_woqdr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_sxwqk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Boueu" type="CharacterBody2D" unique_id=1350161769]
+script = ExtResource("1_woqdr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=903255427]
+shape = SubResource("CircleShape2D_sxwqk")
+
+[node name="DirectionTimer" type="Timer" parent="." unique_id=1949663220]
+autostart = true
+
+[node name="anim" type="Node2D" parent="." unique_id=115644670]
+scale = Vector2(0.1, 0.1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="anim" unique_id=2134369261]
+sprite_frames = SubResource("SpriteFrames_woqdr")
+
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
