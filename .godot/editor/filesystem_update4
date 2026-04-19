@@ -12,3 +12,5 @@ res://scenes/prefabs/boueu/BoueuBOSS.tscn
 res://scenes/prefabs/boueu/BoueuP.tscn
 res://deathpart.tscn
 res://deathpartboy.tscn
+res://scenes/levels/main_menu.tscn
+res://scenes/levels/main_menu.gd

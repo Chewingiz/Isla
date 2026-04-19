@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://cewn1l11wm30l"]
+
+[ext_resource type="Script" uid="uid://c66vm5gi1xgop" path="res://scenes/levels/main_menu.gd" id="1_fsby3"]
+[ext_resource type="PackedScene" uid="uid://bmhd7yrq5imyb" path="res://scenes/prefabs/WaZaRain2D/WaZaRain2D.tscn" id="2_leamy"]
+[ext_resource type="Texture2D" uid="uid://dns2anp8yyc0d" path="res://Art/maison_Mami.png" id="3_721jg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_721jg"]
+font_size = 64
+font_color = Color(1, 1, 0.30588236, 1)
+shadow_size = 21
+shadow_color = Color(0, 0, 0, 0.39215687)
+shadow_offset = Vector2(0, 9.72)
+
+[node name="MainMenu" type="Node2D" unique_id=1385527930]
+script = ExtResource("1_fsby3")
+
+[node name="ButtonManager" type="Control" parent="." unique_id=741971025]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 167.0
+offset_top = 95.0
+offset_right = 207.0
+offset_bottom = 135.0
+
+[node name="Start" type="Button" parent="ButtonManager" unique_id=17442435]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 124.0
+offset_right = 273.0
+offset_bottom = 161.0
+text = "Start"
+
+[node name="Options" type="Button" parent="ButtonManager" unique_id=2128888835]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 182.0
+offset_right = 273.0
+offset_bottom = 219.0
+text = "Options"
+
+[node name="Quit" type="Button" parent="ButtonManager" unique_id=517419177]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 244.0
+offset_right = 273.0
+offset_bottom = 281.0
+text = "Quit"
+
+[node name="Label" type="Label" parent="." unique_id=1178946754]
+offset_left = 168.0
+offset_top = 92.0
+offset_right = 474.0
+offset_bottom = 180.0
+text = "Rainy Day"
+label_settings = SubResource("LabelSettings_721jg")
+
+[node name="MaisonMami" type="Sprite2D" parent="." unique_id=1700746900]
+position = Vector2(403, 261.00003)
+scale = Vector2(0.6464269, 0.6464269)
+texture = ExtResource("3_721jg")
+
+[node name="WaZaRain2d" parent="." unique_id=91837003 instance=ExtResource("2_leamy")]
+position = Vector2(488, 180)
+
+[connection signal="pressed" from="ButtonManager/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="ButtonManager/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="ButtonManager/Quit" to="." method="_on_quit_pressed"]
