@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+var damage = 10
+
 @export var speed: int = 300
 @export var acceleration: int = 20
 @export var jump_speed: int = 500
@@ -32,6 +34,7 @@ func handle_input(delta: float) -> void:
 	
 	if not is_on_floor():
 		if Input.is_action_just_pressed("pound"):
+			set_damage("heavy")
 			current_state = State.POUND
 		else:
 			if direction != 0:
@@ -40,13 +43,10 @@ func handle_input(delta: float) -> void:
 				velocity.x = lerp(velocity.x,0.0,delta)
 	else:
 		if slide_timer.is_stopped():
-			slide_timer.stop()
-			slide_area_2d_right.get_child(0).disabled = true
-			slide_area_2d_left.get_child(0).disabled = true
-			  
 			if direction != 0:
 				if Input.is_action_just_pressed("slide") and not current_state == State.SLIDE:
 					current_state = State.SLIDE
+					set_damage("normal")
 					slide_timer.start()
 				else:
 					velocity.x = move_toward(velocity.x, speed * direction, acceleration)
@@ -55,9 +55,11 @@ func handle_input(delta: float) -> void:
 		else:
 			if velocity.x > 0:
 				slide_area_2d_right.get_child(0).disabled = false
+				$SlideArea2DLeft/Sprite2D.visible = true
 				velocity.x += 10
 			else:
 				slide_area_2d_left.get_child(0).disabled = false
+				$SlideArea2DRight/Sprite2D.visible = true
 				velocity.x -= 10
 
 func update_movement(delta: float) -> void:
@@ -94,6 +96,10 @@ func update_states() -> void:
 				current_state = State.RUN
 		
 		State.SLIDE when slide_timer.is_stopped():
+			slide_area_2d_right.get_child(0).disabled = true
+			slide_area_2d_left.get_child(0).disabled = true
+			$SlideArea2DRight/Sprite2D.visible = false
+			$SlideArea2DLeft/Sprite2D.visible = false
 			if velocity.x == 0:
 				current_state = State.IDLE
 			else:
@@ -107,6 +113,8 @@ func update_states() -> void:
 				current_state = State.RUN
 
 func ground_pound() -> void:
+	$SlideArea2DRight/Sprite2D.visible = true
+	$SlideArea2DLeft/Sprite2D.visible = true
 	animation_player.play("ground_pound")
 
 
@@ -121,3 +129,17 @@ func update_animation() -> void:
 		State.FALL: animations.play("recep")
 		State.SLIDE: animations.play("slide")
 		State.POUND: animations.play("pound")
+
+func set_damage(attack_type):
+	var current_damage_to_deal: int
+	if attack_type == "normal":
+		current_damage_to_deal = 10
+	elif attack_type == "heavy":
+		current_damage_to_deal = 20
+	damage = current_damage_to_deal
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "ground_pound":
+		$SlideArea2DRight/Sprite2D.visible = false
+		$SlideArea2DLeft/Sprite2D.visible = false

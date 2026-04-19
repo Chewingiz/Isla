@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://dv2dd7lqgltqk"]
+
+[ext_resource type="Script" uid="uid://bcwuvyutaix8u" path="res://scenes/prefabs/boueu/boueu.gd" id="1_0uins"]
+[ext_resource type="Texture2D" uid="uid://bm50pa21w0jug" path="res://Art/monstre/M_p/monstreA0008.png" id="2_0uins"]
+[ext_resource type="PackedScene" uid="uid://c57fbw7f58j3h" path="res://deathpart.tscn" id="2_gb20i"]
+[ext_resource type="Texture2D" uid="uid://cs8hpsx1vuplh" path="res://Art/monstre/M_p/monstreA0009.png" id="3_gb20i"]
+[ext_resource type="Texture2D" uid="uid://ccy57b6r47612" path="res://Art/monstre/M_p/monstreA0010.png" id="4_ahy46"]
+[ext_resource type="Texture2D" uid="uid://o3srclqw3erj" path="res://Art/monstre/M_p/monstreA0011.png" id="5_ktywr"]
+[ext_resource type="Texture2D" uid="uid://cbhqql4y1nyex" path="res://Art/monstre/M_p/monstreA0012.png" id="6_ryptl"]
+[ext_resource type="Texture2D" uid="uid://4tcydu4udfnx" path="res://Art/monstre/M_p/monstreA0013.png" id="7_x7n8h"]
+[ext_resource type="Texture2D" uid="uid://dh40bid0l03ke" path="res://Art/monstre/M_p/monstreA0014.png" id="8_8q5j5"]
+[ext_resource type="Texture2D" uid="uid://c6arg8rf8ku2" path="res://Art/monstre/M_p/monstreA0015.png" id="9_umg8a"]
+[ext_resource type="Texture2D" uid="uid://b5abpf4u3fkdk" path="res://Art/monstre/M_p/monstreA0016.png" id="10_1otnt"]
+[ext_resource type="Texture2D" uid="uid://cg7hwdsjq7xrs" path="res://Art/monstre/M_p/monstreA0017.png" id="11_w5ggu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sxwqk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_woqdr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0uins")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0uins")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gb20i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ahy46")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ktywr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ryptl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_x7n8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8q5j5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_umg8a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_1otnt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_w5ggu")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_tlnm5"]
+polygon = PackedVector2Array(-40.999996, 103.999985, -20.999998, 28.999996, 18.999998, 28.999996, 33.999996, 103.999985)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ynwvb"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_0uins"]
+resource_name = "death"
+length = 3.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gb20i"]
+_data = {
+&"death": SubResource("Animation_0uins")
+}
+
+[node name="Boueu" type="CharacterBody2D" unique_id=1350161769]
+scale = Vector2(2, 2)
+collision_layer = 4
+script = ExtResource("1_0uins")
+speed = 30
+health = 10
+health_max = 10
+
+[node name="GPUParticles2D" parent="." unique_id=1882116332 instance=ExtResource("2_gb20i")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=903255427]
+shape = SubResource("CircleShape2D_sxwqk")
+
+[node name="DirectionTimer" type="Timer" parent="." unique_id=1949663220]
+autostart = true
+
+[node name="anim" type="Node2D" parent="." unique_id=115644670]
+scale = Vector2(0.1, 0.1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="anim" unique_id=2134369261]
+position = Vector2(0, -85)
+sprite_frames = SubResource("SpriteFrames_woqdr")
+animation = &"walk"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="anim/AnimatedSprite2D" unique_id=232975640]
+position = Vector2(1, 26)
+occluder = SubResource("OccluderPolygon2D_tlnm5")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=808751102]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=38305660]
+shape = SubResource("CircleShape2D_ynwvb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=267451272]
+libraries/ = SubResource("AnimationLibrary_gb20i")
+
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

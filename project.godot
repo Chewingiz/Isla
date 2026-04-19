@@ -29,6 +29,10 @@ folder_colors={
 "res://scenes/": "blue"
 }
 
+[global_group]
+
+Player=""
+
 [input]
 
 up={

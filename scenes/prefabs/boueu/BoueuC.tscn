@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://cthsia8ktonf1"]
+
+[ext_resource type="Script" uid="uid://bcwuvyutaix8u" path="res://scenes/prefabs/boueu/boueu.gd" id="1_38l7a"]
+[ext_resource type="Texture2D" uid="uid://ed5xiom0my0a" path="res://Art/monstre/MC/monstreA0029.png" id="2_kaijf"]
+[ext_resource type="Texture2D" uid="uid://deq77rvesclyr" path="res://Art/monstre/MC/monstreA0030.png" id="3_38l7a"]
+[ext_resource type="Texture2D" uid="uid://c4t6u5qksafvr" path="res://Art/monstre/MC/monstreA0031.png" id="4_js2m7"]
+[ext_resource type="Texture2D" uid="uid://bd5ygkeyjxy2c" path="res://Art/monstre/MC/monstreA0032.png" id="5_r31qa"]
+[ext_resource type="Texture2D" uid="uid://b2bkv6ekxyvjd" path="res://Art/monstre/MC/monstreA0033.png" id="6_qxete"]
+[ext_resource type="Texture2D" uid="uid://eiq4ht8v65vi" path="res://Art/monstre/MC/monstreA0034.png" id="7_vmpog"]
+[ext_resource type="Texture2D" uid="uid://cm02obib7oeas" path="res://Art/monstre/MC/monstreA0035.png" id="8_536y6"]
+[ext_resource type="Texture2D" uid="uid://cjkumgt5gngjq" path="res://Art/monstre/MC/monstreA0036.png" id="9_o5w0x"]
+[ext_resource type="Texture2D" uid="uid://ccd4m6ds7rc08" path="res://Art/monstre/MC/monstreA0037.png" id="10_u7bj0"]
+[ext_resource type="Texture2D" uid="uid://bev530utk142y" path="res://Art/monstre/MC/monstreA0038.png" id="11_ieacb"]
+[ext_resource type="PackedScene" uid="uid://c57fbw7f58j3h" path="res://deathpart.tscn" id="12_38l7a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sxwqk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_woqdr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kaijf")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kaijf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_38l7a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_js2m7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_r31qa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_qxete")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_vmpog")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_536y6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_o5w0x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_u7bj0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ieacb")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_kaijf"]
+polygon = PackedVector2Array(-40.999996, 103.999985, -10.999999, 38.999996, 8.999999, 38.999996, 33.999996, 103.999985)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ynwvb"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_0uins"]
+resource_name = "death"
+length = 3.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kaijf"]
+_data = {
+&"death": SubResource("Animation_0uins")
+}
+
+[node name="Boueu" type="CharacterBody2D" unique_id=1350161769]
+scale = Vector2(2, 2)
+collision_layer = 4
+script = ExtResource("1_38l7a")
+health_max = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=903255427]
+shape = SubResource("CircleShape2D_sxwqk")
+
+[node name="DirectionTimer" type="Timer" parent="." unique_id=1949663220]
+autostart = true
+
+[node name="anim" type="Node2D" parent="." unique_id=115644670]
+scale = Vector2(0.1, 0.1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="anim" unique_id=2134369261]
+position = Vector2(0, -60)
+sprite_frames = SubResource("SpriteFrames_woqdr")
+animation = &"walk"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="anim/AnimatedSprite2D" unique_id=1843004518]
+position = Vector2(1, 26)
+occluder = SubResource("OccluderPolygon2D_kaijf")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=808751102]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=38305660]
+shape = SubResource("CircleShape2D_ynwvb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1313222972]
+libraries/ = SubResource("AnimationLibrary_kaijf")
+
+[node name="GPUParticles2D" parent="." unique_id=1882116332 instance=ExtResource("12_38l7a")]
+
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
