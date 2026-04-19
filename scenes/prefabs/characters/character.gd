@@ -6,6 +6,7 @@ var damage = 10
 @export var acceleration: int = 20
 @export var jump_speed: int = 500
 
+@onready var hit_box: Area2D = $HitBox
 @onready var animations: AnimatedSprite2D = $Anim/AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var slide_timer: Timer = $SlideTimer
@@ -19,10 +20,48 @@ var current_state: State = State.IDLE
 
 func _physics_process(delta: float) -> void:
 	handle_input(delta)
+	handle_hitbox()
 	update_movement(delta)
 	update_states()
 	update_animation()
-	move_and_slide()
+	if not dead:
+		move_and_slide()
+
+@export var health:int = 100
+var can_take_damage: bool = true
+var dead: bool
+func handle_hitbox():
+	var hitbox_areas = hit_box.get_overlapping_areas()
+	var damage: int
+	if hitbox_areas:
+		var hitbox = hitbox_areas.front()
+		if hitbox.get_parent().is_in_group("mob"):
+			print(hitbox.get_parent())
+			damage = hitbox.get_parent().damage_to_deal
+	if can_take_damage:
+		take_damage(damage)
+
+func take_damage(damage):
+	if damage != 0:
+		if health > 0:
+			health -= damage
+			print("player health: ", health)
+			if health <= 0:
+				health = 0
+				dead = true
+				handle_death()
+			take_damage_cooldown(1.0)
+
+func handle_death():
+	$GPUParticles2D.emitting = true
+	$Anim.visible = false
+	await get_tree().create_timer(1.5).timeout
+	self.queue_free()
+
+func take_damage_cooldown(wait_time):
+	can_take_damage = false
+	await get_tree().create_timer(wait_time).timeout
+	can_take_damage = true
 
 func handle_input(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():

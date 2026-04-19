@@ -64,6 +64,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ynwvb"]
 radius = 7.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ria5q"]
+radius = 7.0
+
 [sub_resource type="Animation" id="Animation_0uins"]
 resource_name = "death"
 length = 3.5
@@ -98,6 +101,11 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=38305660]
 shape = SubResource("CircleShape2D_ynwvb")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1968421796]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=342384918]
+shape = SubResource("CircleShape2D_ria5q")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=967775633]
 libraries/ = SubResource("AnimationLibrary_lbfar")

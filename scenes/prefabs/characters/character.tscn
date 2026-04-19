@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://gs4g4fyd3flh" path="res://Art/animations/anim_walk/image0013.png" id="19_pbnoc"]
 [ext_resource type="Texture2D" uid="uid://dnvklqqg6mevo" path="res://Art/animations/anim_walk/image0014.png" id="20_265cu"]
 [ext_resource type="Texture2D" uid="uid://bxrx1eaivf2mg" path="res://Art/animations/image0000.png" id="21_8c3ws"]
+[ext_resource type="PackedScene" uid="uid://c8apdip300pu1" path="res://deathpartboy.tscn" id="23_0khpb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f0775"]
 height = 36.0
@@ -307,9 +308,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0khpb"]
+radius = 15.0
+height = 48.0
+
 [node name="Character" type="CharacterBody2D" unique_id=57550830 groups=["Player"]]
+z_index = 1
 collision_layer = 2
+collision_mask = 9
 script = ExtResource("1_eaa5m")
+health = 10
 
 [node name="SlideArea2DLeft" type="Area2D" parent="." unique_id=58825878]
 collision_layer = 2
@@ -323,6 +331,7 @@ disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SlideArea2DLeft" unique_id=647162753]
 visible = false
+z_index = 1
 position = Vector2(39, -5.999999)
 scale = Vector2(0.1525, 0.1525)
 texture = ExtResource("2_1gqfn")
@@ -339,15 +348,16 @@ disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SlideArea2DRight" unique_id=391633953]
 visible = false
+z_index = 1
 position = Vector2(-39, -6)
 rotation = -3.1415925
 scale = Vector2(0.153, -0.153)
 texture = ExtResource("2_1gqfn")
 
-[node name="HitBox" type="CollisionShape2D" parent="." unique_id=421669844]
+[node name="Coll" type="CollisionShape2D" parent="." unique_id=421669844]
 shape = SubResource("CapsuleShape2D_jfi6v")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1947869002 groups=["Player"]]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1947869002]
 position = Vector2(1, 26)
 occluder = SubResource("OccluderPolygon2D_jfi6v")
 
@@ -362,9 +372,18 @@ libraries/ = SubResource("AnimationLibrary_qulg7")
 scale = Vector2(0.115, 0.115)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Anim" unique_id=334294256]
-position = Vector2(-0.9999999, 0)
+position = Vector2(0, 17.391304)
 sprite_frames = SubResource("SpriteFrames_0gkak")
 animation = &"run"
 frame_progress = 0.117867306
+
+[node name="GPUParticles2D" parent="." unique_id=1882116332 instance=ExtResource("23_0khpb")]
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1435954392]
+collision_layer = 2
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=171685109]
+shape = SubResource("CapsuleShape2D_0khpb")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

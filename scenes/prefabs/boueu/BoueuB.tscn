@@ -80,7 +80,10 @@ _data = {
 &"death": SubResource("Animation_0uins")
 }
 
-[node name="Boueu" type="CharacterBody2D" unique_id=1350161769]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ditaa"]
+radius = 7.0
+
+[node name="Boueu" type="CharacterBody2D" unique_id=1350161769 groups=["mob"]]
 scale = Vector2(2, 2)
 collision_layer = 4
 script = ExtResource("1_l10im")
@@ -115,6 +118,13 @@ shape = SubResource("CircleShape2D_ynwvb")
 libraries/ = SubResource("AnimationLibrary_1geuu")
 
 [node name="GPUParticles2D" parent="." unique_id=1882116332 instance=ExtResource("13_ditaa")]
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=267376822]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=2095260587]
+shape = SubResource("CircleShape2D_ditaa")
 
 [connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

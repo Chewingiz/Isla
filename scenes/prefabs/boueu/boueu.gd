@@ -23,12 +23,13 @@ var is_roaming: bool = true
 var player_in_area = false
 
 func _process(delta):
-	if not is_on_floor():
-		velocity.y += gravity * delta
-		velocity.x = 0
-	move(delta)
-	handle_animation()
-	move_and_slide()
+	if not player == null:
+		if not is_on_floor():
+			velocity.y += gravity * delta
+			velocity.x = 0
+		move(delta)
+		handle_animation()
+		move_and_slide()
 
 func move(delta):
 	if not dead:
@@ -57,6 +58,8 @@ func handle_animation():
 	elif dead and is_roaming:
 		is_roaming = false
 		handle_death()
+	elif !dead and is_dealing_damage:
+		print("att")
 
 func handle_death():
 	$AnimationPlayer.play("death")

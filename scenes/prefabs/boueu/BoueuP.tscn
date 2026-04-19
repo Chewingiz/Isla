@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://b5abpf4u3fkdk" path="res://Art/monstre/M_p/monstreA0016.png" id="10_1otnt"]
 [ext_resource type="Texture2D" uid="uid://cg7hwdsjq7xrs" path="res://Art/monstre/M_p/monstreA0017.png" id="11_w5ggu"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gb20i"]
+radius = 7.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_sxwqk"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_woqdr"]
@@ -83,6 +86,13 @@ script = ExtResource("1_0uins")
 speed = 30
 health = 10
 health_max = 10
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1038963518]
+collision_layer = 8
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1811664871]
+shape = SubResource("CircleShape2D_gb20i")
 
 [node name="GPUParticles2D" parent="." unique_id=1882116332 instance=ExtResource("2_gb20i")]
 

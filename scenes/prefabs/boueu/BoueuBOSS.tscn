@@ -89,7 +89,7 @@ animations = [{
 polygon = PackedVector2Array(-100.99999, 128.99998, -91, -194.33331, 109, -187.66666, 88.99999, 138.99998)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ynwvb"]
-radius = 7.0
+radius = 9.689628
 
 [sub_resource type="Animation" id="Animation_0uins"]
 resource_name = "death"
@@ -100,7 +100,10 @@ _data = {
 &"death": SubResource("Animation_0uins")
 }
 
-[node name="Boueu" type="CharacterBody2D" unique_id=1350161769]
+[sub_resource type="CircleShape2D" id="CircleShape2D_qvnbc"]
+radius = 7.0
+
+[node name="Boueu" type="CharacterBody2D" unique_id=1350161769 groups=["mob"]]
 scale = Vector2(3, 3)
 collision_layer = 4
 script = ExtResource("1_f5pd3")
@@ -138,6 +141,13 @@ shape = SubResource("CircleShape2D_ynwvb")
 libraries/ = SubResource("AnimationLibrary_8gjk6")
 
 [node name="GPUParticles2D" parent="." unique_id=1882116332 instance=ExtResource("18_qvnbc")]
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=262679164]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=19121868]
+shape = SubResource("CircleShape2D_qvnbc")
 
 [connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
